@@ -6,7 +6,8 @@ if (!isset($_SESSION['user'])) {
     header('location: /login?redirect_to=/cashflow');
 } else {
 
-    if (isset($_POST['submit'])) {       
+    
+    if(isset($_POST['submit'])){           
 
         $searchDate = $_POST['searchDate'];
         $user_id = $_SESSION['user']['id'];
@@ -14,7 +15,6 @@ if (!isset($_SESSION['user'])) {
         $query = "SELECT * FROM cashflows WHERE date='$searchDate' AND user_id = $user_id";
 
         $result = mysqli_query($conn, $query);
-
     } else {
         $error = "Get Method is not support.!";
     }
@@ -69,7 +69,8 @@ require base_path('view/nav.view.php');
                 </tr>
             </thead>
             <tbody>
-                <?php if (mysqli_num_rows($result) > 0): ?>
+                <?php if(isset($_POST['submit'])): ?> 
+                 <?php if (mysqli_num_rows($result) > 0): ?> 
                     <?php $balance = 0;
                     while ($row = mysqli_fetch_assoc($result)):
 
@@ -111,6 +112,7 @@ require base_path('view/nav.view.php');
                     <?php endwhile; ?>
                 <?php else: ?>
                     <div class="text-center text-danger m-3">No data for this search.!</div>
+                <?php endif; ?>
                 <?php endif; ?>
             </tbody>
         </table>
